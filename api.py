@@ -66,7 +66,14 @@ def compras_usuario_por_id(id: int, id_compra: int):
 @app.get("/usuarios/{id}")
 def usuario_por_id(id:int,sesion:Session=Depends(generador_sesion)):
     print("Api consultando usuario por id")
+
     return repo.usuario_por_id(sesion, id)
+
+@app.get("/compras/{id}")
+def compras_por_id(id:int, sesion:Session=Depends(generador_sesion)):
+    return repo.compras_por_id(sesion, id)
+
+
 
 @app.get("/usuarios")
 def lista_usuarios(*,lote:int=10,pag:int,orden:Optional[str]=None): #parametros de consulta ?lote=10&pag=1
@@ -129,3 +136,7 @@ async def guardar_foto(titulo:str=Form(None), descripcion:str=Form(...), foto:Up
         imagen.write(contenido)
 
     return {"titulo":titulo, "descripcion":descripcion, "foto":foto.filename}
+
+@app.get("/fotos/{id}")
+def fotos_por_id(id:int, sesion:Session=Depends(generador_sesion)):
+    return repo.fotos_por_id(sesion, id)
